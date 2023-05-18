@@ -1,0 +1,24 @@
+{% extends "./week.html" %}
+
+{% block title %}
+    <h2>Week Day {{ object.day }}</h2>
+{% endblock title %}
+
+{% block day_detail %}
+    <ul>
+        {% for note in object.note_set.all %}
+            <li>{{ note.title }}</li>
+        {% endfor %}
+    </ul>
+
+    <form action="{% url 'new_note' object.id %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend><h3>New Note for the {{ object.day }}</h3></legend>
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+            {{ form }}
+        </fieldset>
+        <input type="submit" value="Save Note">
+    </form>
+
+{% endblock day_detail %}
