@@ -58,6 +58,7 @@ class NoteFormView(FormView):
 
 
 
+
 def add_note(request, week_day_id):
     week_day = get_object_or_404(WeekDay, pk=week_day_id)
     form_data = NoteForm(request.POST)
