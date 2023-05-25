@@ -11,6 +11,12 @@ class NoteForm(forms.ModelForm):
         model = Note
         fields = ['msg']
 
+
+
+    def __init__(self, *args, **kwargs):
+        self._key_id = kwargs.pop("key_id")
+        super().__init__(*args, **kwargs)
+
     def clean_title(self):
         data = self.cleaned_data['title']
         if len(data.split(' ')) < 2:

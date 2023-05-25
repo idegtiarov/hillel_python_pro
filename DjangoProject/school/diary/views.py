@@ -43,6 +43,11 @@ class NoteFormView(FormView):
     form_class = NoteForm
     template_name = "diary/weekday_detail.html"
 
+    def get_form_kwargs(self):
+        form_kwarg = super().get_form_kwargs()
+        form_kwarg['key_id'] = self.kwargs['pk']
+        return form_kwarg
+
     def form_valid(self, form):
         week_day = get_object_or_404(WeekDay, pk=self.kwargs["pk"])
         Note.objects.create(week_day=week_day, title=form.cleaned_data['title'], msg=form.cleaned_data['msg'])
