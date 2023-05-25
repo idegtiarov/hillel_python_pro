@@ -14,3 +14,5 @@ jobs:
         run: pip install flake8
       - name: Execute flake8 linter
         run: flake8 DjangoProject/school --config DjangoProject/school/.flake8
+      -name: Execute Pytests
+        run: pytest DjangoProject/school
