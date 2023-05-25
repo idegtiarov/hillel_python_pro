@@ -15,4 +15,6 @@ jobs:
       - name: Execute flake8 linter
         run: flake8 DjangoProject/school --config DjangoProject/school/.flake8
       - name: Execute Pytests
+        env:
+          DJANGO_SETTINGS_MODULE: school.settings
         run: pytest DjangoProject/school
