@@ -9,7 +9,10 @@ class WeekDayAdmin(admin.ModelAdmin):
 
 
 class NoteAdmin(admin.ModelAdmin):
-    list_display = ("title", "msg",)
+    list_display = (
+        "title",
+        "msg",
+    )
 
 
 admin.site.register(WeekDay, WeekDayAdmin)

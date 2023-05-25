@@ -14,5 +14,3 @@ class Note(models.Model):
     week_day = models.ForeignKey(WeekDay, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     msg = models.CharField(max_length=250)
-
-
