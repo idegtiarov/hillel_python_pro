@@ -11,7 +11,7 @@ jobs:
       - name: Checkout repository code
         uses: actions/checkout@v3
       - name: Install Requirements
-        run: pip install flake8
+        run: pip install -r DjangoProject/school/requirements.txt
       - name: Execute flake8 linter
         run: flake8 DjangoProject/school --config DjangoProject/school/.flake8
       - name: Execute Pytests
