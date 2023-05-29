@@ -1,0 +1,15 @@
+{% extends "./base.html" %}
+
+{% block title %}
+    <h1>SignIn to Week Plans</h1>
+{% endblock title %}
+
+{% block main_part %}
+
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="SignIn">
+    </form>
+
+{% endblock main_part %}

@@ -6,6 +6,10 @@
 </head>
 <body>
 
+<header>{% if request.user.is_authenticated %}
+    {{ request.user.username }} <a href="{% url 'logout' %}">Log me out please!</a>
+{% endif %}</header>
+
 {% block title %}
     <h1>My Cool Week</h1>
 {% endblock title %}

@@ -1,15 +1,40 @@
+from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView as AuthLoginView
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
 from django.urls import reverse
-from django.views.generic import DetailView, FormView, ListView
+from django.views.generic import CreateView, DetailView, FormView, ListView
 
 from .forms import NoteForm
 from .models import Note, WeekDay
 
 
 def index(request):
+    session = request.session
+    print(f"{session.get('key')}")
+    session[123] = {'all': 'empty'}
+
     return redirect("my_week")
+
+
+class RegisterCreateView(CreateView):
+    model = User
+    form_class = UserCreationForm
+    template_name = 'diary/login.html'
+    success_url = '/'
+
+# NOTE: in class we missed to use LoginView from django.contrib.auth.views and uses instead generic FormView
+#  If we use generic view additional step is required to be called: https://github.com/django/django/blob/main/django/contrib/auth/__init__.py#L94
+class LoginView(AuthLoginView):
+    template_name = "diary/login.html"
+
+
+def logout(request):
+    auth_logout(request)
+    return redirect('index')
 
 
 class DaysList(ListView):
@@ -19,6 +44,9 @@ class DaysList(ListView):
 
 
 def my_week(request):
+    print(f"{request.user.is_authenticated}")
+    if not request.user.is_authenticated:
+        return redirect('login')
     # week_day = WeekDay(title="Fri", note="Some interesting thing should happens")
     # response = f"on a week_day: {week_day.title}, there is going to: {week_day.note}"
     template = loader.get_template("diary/week.html")
@@ -32,9 +60,11 @@ class DayDetail(DetailView):
     # template_name = "diary/weekday_detail.html"
 
 
-def my_day(request, week_day_id):
-    day = get_object_or_404(WeekDay, pk=week_day_id)
-    return render(request, "diary/weekday_detail.html", {"week_day": day})
+def my_day(request, pk):
+    print(f"{request.session.get('123')}")
+    request.session["key"] = 123671327819
+    day = get_object_or_404(WeekDay, pk=pk)
+    return render(request, "diary/weekday_detail.html", {"object": day})
 
 
 class NoteFormView(FormView):
