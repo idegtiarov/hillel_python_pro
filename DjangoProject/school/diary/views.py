@@ -10,6 +10,7 @@ from django.views.generic import CreateView, DetailView, FormView, ListView
 
 from .forms import NoteForm
 from .models import Note, WeekDay
+from .mixins import MixinUserFilter
 
 
 def index(request):
@@ -42,6 +43,9 @@ class DaysList(ListView):
     template_name = "diary/week.html"
     context_object_name = "days"
 
+    def get_queryset(self):
+        data = super().get_queryset().filter(user=self.request.user)
+        return data
 
 def my_week(request):
     print(f"{request.user.is_authenticated}")
@@ -55,7 +59,7 @@ def my_week(request):
     return HttpResponse(template.render(context, request))
 
 
-class DayDetail(DetailView):
+class DayDetail(MixinUserFilter, DetailView):
     model = WeekDay
     # template_name = "diary/weekday_detail.html"
 

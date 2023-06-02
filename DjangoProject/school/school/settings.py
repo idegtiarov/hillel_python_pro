@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+try:
+    from secure import SECRET_KEY
+except ModuleNotFoundError:
+    SECRET_KEY = 'fake_secret_for_test_purpose_only'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-ac8ot=%%-5rr8=tws0(ooqat@u(y2hy+tbf6d+-rl$!sj%$5w9"
+# SECRET_KEY = "django-insecure-ac8ot=%%-5rr8=tws0(ooqat@u(y2hy+tbf6d+-rl$!sj%$5w9"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -48,6 +51,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "diary.middlewares.CustomMiddleware",
 ]
 
 ROOT_URLCONF = "school.urls"
